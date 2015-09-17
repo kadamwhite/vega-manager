@@ -1,0 +1,15 @@
+# Vega directories
+compass/
+datalib/
+polestar/
+vega/
+vega-editor/
+vega-lite/
+vega-lite-ui/
+vega-tutorials/
+vega.github.io/
+voyager/
+
+# Node stuff
+node_modules/
+*.log

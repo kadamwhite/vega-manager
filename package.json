@@ -1,0 +1,15 @@
+{
+  "name": "voyager-grant-project",
+  "version": "0.0.1",
+  "description": "Scripts for use with the voyager grant project",
+  "scripts": {
+    "init": "node ./initialize.js",
+    "update": "node ./update-all.js"
+  },
+  "author": "K. Adam White",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "bluebird": "^2.10.0",
+    "chalk": "^1.1.1"
+  }
+}
