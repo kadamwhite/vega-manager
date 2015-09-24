@@ -20,7 +20,7 @@ var repoClonePromises = repos.map(function( repo ) {
 });
 
 bluebird.all( repoClonePromises ).then(function() {
-  console.log( '\nDone' );
+  console.log( '\nAll repositories cloned successfully' );
 }, function( err ) {
   console.error( chalk.red( 'Something went wrong:' ) );
   console.error( err );

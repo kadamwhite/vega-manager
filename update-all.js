@@ -10,6 +10,8 @@ const repos = require( './repo-list' );
 const dir = require( './_lib/dir' );
 const repoExists = require( './_lib/repo-exists' );
 
+var repoCommands = require( './_lib/repo-commands' );
+
 function isMaster( repo ) {
   return cp.execAsync( 'git rev-parse --abbrev-ref HEAD', {
     cwd: dir( repo )
@@ -46,7 +48,21 @@ function updateRepo( repo, cwd ) {
           return cp.execAsync( 'git merge origin/master', { cwd: cwd });
         })
         .then(function() {
-          console.log( repo + ' updated to latest' );
+          console.log( repo + ' updated to latest. Installing...' );
+          return repoCommands.npm.install( repo )
+        })
+        .then(function() {
+          console.log( 'Installation complete. Building ' + repo + '...' );
+          return repoCommands.npm.runBuild( repo );
+        })
+        .then(function() {
+          console.log( repo + ' is ' + chalk.green( 'ready to go' ) );
+        })
+        .catch(function( err ) {
+          console.error( chalk.red( 'Warning' ) +
+            ': Something went wrong while updating ' + repo );
+          console.error( err.stack ? err.stack : err );
+          return bluebird.Promise.resolve();
         });
     })
     .catch(function( err ) {
@@ -57,7 +73,7 @@ function updateRepo( repo, cwd ) {
         console.error( err );
       }
       // Errors in one command should not prohibit script from completing
-      return Promise.resolve();
+      return bluebird.Promise.resolve();
     });
 }
 
@@ -71,8 +87,13 @@ var repoUpdatePromises = repos.map(function( repo ) {
 });
 
 bluebird.all( repoUpdatePromises ).then(function() {
-  console.log( '\nDone' );
+  console.log( '\nAll repositories are up to date!' );
 }, function( err ) {
   console.error( 'Something went wrong:' );
-  console.error( err );
+  console.error( err.stack ? err.stack : err );
+  process.exit( 0 );
+})
+.then(function() {
+  console.log( 'Updating bower linkages...' );
+  require( './bower-link' );
 });

@@ -4,7 +4,8 @@
   "description": "Scripts for use with the voyager grant project",
   "scripts": {
     "init": "node ./initialize.js",
-    "update": "node ./update-all.js"
+    "update": "node ./update-all.js",
+    "bower-link": "node ./bower-link.js"
   },
   "author": "K. Adam White",
   "license": "BSD-3-Clause",

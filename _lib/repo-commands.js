@@ -8,11 +8,9 @@ var dir = require( './dir' );
 var isWin = /^win/.test( process.platform );
 
 function npmInstall( repo ) {
-  return function() {
-    return cp.execAsync( 'npm install', {
-      cwd: dir( repo )
-    });
-  };
+  return cp.execAsync( 'npm install', {
+    cwd: dir( repo )
+  });
   // .then(function( buffer ) {
   //   console.log( chalk.green( repo ) + ': installation complete' );
   // });
